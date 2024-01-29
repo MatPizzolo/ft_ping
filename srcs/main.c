@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     if (msg != NULL)
         return (printf("%s\n", msg), 1);
 
-    if (!get_host_ip(argv[1], arg_addr))
+    if (!get_host_ip(argv[1], &arg_addr))
         return 2;
     
 

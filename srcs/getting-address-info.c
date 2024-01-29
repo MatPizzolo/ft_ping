@@ -1,14 +1,17 @@
 #include "../ping.h"
 
-int get_host_ip()
-if (!check_if_ip_address(argv[1])) {
-        get_ip_from_hostname(argv[1], &arg_addr);
-        if (arg_addr.error)
-            return (printf("ping: %s: %s\n", argv[1], arg_addr.error_msg), 2);
+int get_host_ip(char *addr, t_infop *arg_addr)
+{
+    if (!check_if_ip_address(addr)) {
+        get_ip_from_hostname(addr, arg_addr);
+        if (arg_addr->error)
+            return (printf("ping: %s: %s\n", addr, arg_addr->error_msg), -1);
     } else {
-        arg_addr.hostname = strdup(argv[1]);
-        arg_addr.ip = strdup(argv[1]);
+        arg_addr->hostname = strdup(addr);
+        arg_addr->ip = strdup(addr);
     }
+    return (1);
+}
 
 void get_ip_from_hostname(char *addr, t_infop *arg_addr) {
     struct addrinfo hints;

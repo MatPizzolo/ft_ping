@@ -24,7 +24,7 @@ char	*check_program_arguments(int argc, char **argv);
 
 
 /* Getting Address Info */
-int    get_host_ip(char *addr, t_infop *arg_addr);
+int     get_host_ip(char *addr, t_infop *arg_addr);
 void    get_ip_from_hostname(char *addr, t_infop *arg_addr);
 
 
