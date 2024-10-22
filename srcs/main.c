@@ -21,4 +21,6 @@ int main(int argc, char *argv[]) {
 
     // Print First Line
     printf("PING %s (%s) xx(xx) bytes of data.\n", arg_addr.hostname, arg_addr.ip);
+
+    create_send_packet(arg_addr.ip);
 }
