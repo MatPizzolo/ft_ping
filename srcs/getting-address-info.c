@@ -2,10 +2,11 @@
 
 int get_host_ip(char *addr, t_infop *arg_addr)
 {
+    const char* addresss = strdup(addr);
+
     if (!check_if_ip_address(addr)) {
-        get_ip_from_hostname(addr, arg_addr);
-        if (arg_addr->error)
-            return (printf("ping: %s: %s\n", addr, arg_addr->error_msg), -1);
+        if (!get_ip_from_hostname(addr, arg_addr))
+            return (printf("ping: %s: %s\n", addresss, arg_addr->error_msg), -1);
     } else {
         arg_addr->hostname = strdup(addr);
         arg_addr->ip = strdup(addr);
@@ -13,7 +14,7 @@ int get_host_ip(char *addr, t_infop *arg_addr)
     return (1);
 }
 
-void get_ip_from_hostname(char *addr, t_infop *arg_addr) {
+int get_ip_from_hostname(char *addr, t_infop *arg_addr) {
     struct addrinfo hints;
     struct addrinfo *res, *tmp;
     char host[256];
@@ -25,8 +26,8 @@ void get_ip_from_hostname(char *addr, t_infop *arg_addr) {
     if (ret != 0)
     {
         arg_addr->error = 1;
-        arg_addr->error_msg = (char *)gai_strerror(ret);
-        return ;
+        arg_addr->error_msg = strdup((char *)gai_strerror(ret));
+        return -1;
     }
 
    // Vale la pena el for loop?
@@ -40,4 +41,5 @@ void get_ip_from_hostname(char *addr, t_infop *arg_addr) {
     arg_addr->hostname = addr;
 
     freeaddrinfo(res);
+    return 1;
 }
