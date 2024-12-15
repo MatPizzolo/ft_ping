@@ -7,34 +7,18 @@ Calculate and display the results, including round-trip time. */
 
 #include "../ping.h"
 
-
-unsigned short checksum(void *b, int len) {
-    unsigned short *buf = b;
-    unsigned int sum = 0;
-    unsigned short result;
-
-    for (sum = 0; len > 1; len -= 2)
-        sum += *buf++;
-    if (len == 1)
-        sum += *(unsigned char*)buf;
-    sum = (sum >> 16) + (sum & 0xFFFF);
-    sum += (sum >> 16);
-    result = ~sum;
-    return result;
-}
-
 /**
  * Create and send an ICMP Echo Request packet, then receive and display the ICMP Echo Reply.
  */
 int create_send_packet(const char *dest_ip) {
-    size_t nb_bytes;
+    ssize_t nb_bytes;
     int sock;
     struct sockaddr_in dest_addr;
     char packet[ICMP_HDR_SIZE + ICMP_BODY_SIZE];
     char buffer[1024];
     struct icmphdr *icmp_hdr = (struct icmphdr *)packet;
     struct timeval start_time, end_time;
-    socklen_t addr_len = sizeof(dest_addr);
+   // socklen_t addr_len = sizeof(dest_addr);
 
     // 1. Create the RAW socket
     sock = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);

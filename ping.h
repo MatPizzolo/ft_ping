@@ -11,9 +11,10 @@
 #include <stdlib.h>
 #include <sys/time.h>      // For gettimeofday()
 #include <netdb.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <netinet/in.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <signal.h>
 
 #define ICMP_HDR_SIZE sizeof(struct icmphdr)
 #define ICMP_BODY_SIZE 56  // Standard ping body size in bytes
@@ -28,6 +29,7 @@ typedef struct infop
     char    *error_msg;
     struct sockaddr_in serverAddr;
     int     sockfd;
+    int     verbose;
 }   t_infop;
 
 typedef struct icmp_header {
@@ -41,10 +43,10 @@ typedef struct icmp_header {
 
 /* Args Checker */
 int		check_if_ip_address(char *ipAddress);
-char	*check_program_arguments(int argc, char **argv);
+char    *check_program_arguments(int argc, char **argv, t_infop *arg_addr);
 
 /* Utils */
-
+unsigned short checksum(void *b, int len);
 
 
 /* Getting Address Info */

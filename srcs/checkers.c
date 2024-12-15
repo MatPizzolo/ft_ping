@@ -21,22 +21,37 @@ int check_if_ip_address(char *ipAddress) {
     return (dots == 3);
 }
 
-// check flags 
-// ipAddress = argv[argc - 1]
-char    *check_program_arguments(int argc, char **argv) {
-    char *response;
+char *check_program_arguments(int argc, char **argv, t_infop *arg_addr) {
+    int i;
 
-    /*if (argc == 1)
-        response = "ping: usage error: Destination address required";
-    else if (!check_if_ip_address(argv[1]))
-        response = "ping: IP: Name or service not known";
-    else 
-        response = NULL;*/
+    arg_addr->hostname = NULL;
+    arg_addr->ip = NULL;
+    arg_addr->error = 0;
+    arg_addr->error_msg = NULL;
+    arg_addr->verbose = 0; // Default: verbose mode off
 
-    if (argc == 1)
-        response = "ping: usage error: Destination address required";
-    else 
-        response = NULL;
+    if (argc < 2) {
+        return "ping: usage error: Destination address required";
+    }
 
-    return response;
+    for (i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-v") == 0) {
+            arg_addr->verbose = 1;
+        } else if (strcmp(argv[i], "-?") == 0) {
+            return "Usage: ping [options] <destination>\n"
+                   "Options:\n"
+                   "  -v       Verbose output\n"
+                   "  -?       Show help and exit";
+        } else if (argv[i][0] == '-') {
+            return "ping: invalid option -- 'unknown'";
+        } else {
+            arg_addr->hostname = argv[i];
+        }
+    }
+
+    if (arg_addr->hostname == NULL) {
+        return "ping: usage error: Destination address required";
+    }
+
+    return NULL;
 }
