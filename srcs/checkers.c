@@ -1,14 +1,22 @@
 #include "../ping.h"
 
 int check_if_ip_address(char *ipAddress) {
-    char    copy[15];
+    if (strlen(ipAddress) > 15)
+        return 0;
+
+    char    copy[16];
     char    *ptr;
     int     num, dots = 0;
 
     strncpy(copy, ipAddress, sizeof(copy));
     ptr = strtok(copy, ".");
-    
+    copy[15] = '\0';
     while (ptr != NULL) {
+        for (int i = 0; ptr[i] != '\0'; i++) {
+            if (!isdigit(ptr[i]))
+                return 0;
+        }
+        
         num = atoi(ptr);
         if (num < 0 || num > 255)
             return 0;

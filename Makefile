@@ -2,7 +2,7 @@ NAME = ft_ping
 
 SRCS_DIR = ./srcs
 
-SRCS = $(SRCS_DIR)/main.c $(SRCS_DIR)/checkers.c $(SRCS_DIR)/utils.c $(SRCS_DIR)/getting-address-info.c $(SRCS_DIR)/icmp-handler.c 
+SRCS = $(SRCS_DIR)/main.c $(SRCS_DIR)/checkers.c $(SRCS_DIR)/utils.c $(SRCS_DIR)/getting-address-info.c $(SRCS_DIR)/icmp-handler.c $(SRCS_DIR)/socket-handler.c 
 
 OBJS = $(SRCS:.c=.o)
 
